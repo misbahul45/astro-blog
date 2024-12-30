@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import type { POSTFETCH } from "../../types/POST.types.astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+type Params = {
+  id: string;
+};
+
+const { id } = Astro.params as Params;
+console.log(id);
+
+const post = await fetch(`https://jsonplaceholder.org/posts/${id}`);
+const data = (await post.json()) as POSTFETCH;
+console.log(data);
+---
+
+<MainLayout title={data.title}>
+  <div class="max-w-5xl mx-auto p-4 space-y-4">
+    <Image
+      src={data.image}
+      alt={data.title}
+      class="w-full h-96 object-cover"
+      width={500}
+      height={300}
+    />
+    <h1 class="text-4xl font-bold">{data.title}</h1>
+    <p class="text-gray-400">{data.content}</p>
+  </div>
+</MainLayout>

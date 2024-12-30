@@ -1,0 +1,33 @@
+---
+import Image from "astro/components/Image.astro";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  posts: CollectionEntry<"posts">[];
+};
+const { posts } = Astro.props;
+---
+
+<div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mx-auto px-4">
+  {
+    posts.map((post) => (
+      <a
+        class="p-3 rounded-lg shadow-lg border-2 hover:scale-105 transition-all duration-100"
+        href={`/article/${post.slug}`}
+      >
+        <Image
+          src={post.data.image}
+          alt={post.data.title}
+          class={"w-full rounded-lg shadow-lg"}
+        />
+        <p class="font-semibold text-gray-400">
+          <small>{post.data.author}</small>
+        </p>
+        <h2 class="text-2xl font-semibold my-2 text-center">
+          {post.data.title}
+        </h2>
+        <p class="line-clamp-3">{post.body}</p>
+      </a>
+    ))
+  }
+</div>

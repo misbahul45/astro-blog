@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { Image } from "astro:assets";
+
+export const getStaticPaths = async () => {
+  const posts = await getCollection("posts");
+  const paths = posts.map((post: Props["post"]) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+  return paths;
+};
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+
+const { Content } = await post.render();
+
+if (!post) {
+  Astro.redirect("/404");
+}
+---
+
+<MainLayout title={post.data.title}>
+  <article class="max-w-5xl mx-auto p-4">
+    <h1 class="text-4xl font-semibold">{post.data.title}</h1>
+    <p class="text-gray-400 font-semibold">
+      <small>{post.data.author}</small>
+    </p>
+    <Image
+      src={post.data.image}
+      alt={post.data.title}
+      class={"w-full object-cover rounded-lg shadow-lg my-4"}
+    />
+    <div class="prose prose-2xl w-full mb-16 overflow-visible">
+      <Content />
+    </div>
+  </article>
+</MainLayout>

@@ -1,0 +1,27 @@
+---
+import { HEADER_LINKS } from "../constant/layout.constant.astro";
+
+// Importing the Header component
+---
+
+<header
+  class="sticky w-full top-0 left-0 z-50 flex justify-between items-center sm:px-10 px-2 lg:px-12 bg-gray-50 border-b-2 py-3"
+>
+  <div
+    class="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-600 font-semibold text-white rounded-lg shadow-lg"
+  >
+    BLearn
+  </div>
+  <div class="flex gap-2 items-center">
+    {
+      HEADER_LINKS.map((link) => (
+        <a
+          href={link.path}
+          class="px-4 py-2 bg-gray-100 text-gray-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all duration-100"
+        >
+          {link.title}
+        </a>
+      ))
+    }
+  </div>
+</header>

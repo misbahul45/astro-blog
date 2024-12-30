@@ -1,0 +1,43 @@
+---
+import Image from "astro/components/Image.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import type { POSTFETCH } from "../types/POST.types.astro";
+
+const response = await fetch("https://jsonplaceholder.org/posts");
+const data = await response.json();
+---
+
+<MainLayout title="BLearn | Article">
+  <section class="px-4 py-8 md:px-16 lg:px-32">
+    <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Articles</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        data.map((post: POSTFETCH) => (
+          <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+            <Image
+              src={post.image}
+              alt={post.title}
+              class="w-full h-48 object-cover"
+              width={500}
+              height={300}
+            />
+            <div class="p-4">
+              <h2 class="text-lg font-semibold text-gray-800 truncate">
+                {post.title}
+              </h2>
+              <p class="text-sm text-gray-600 mt-2 line-clamp-3">
+                {post.content}
+              </p>
+              <a
+                href={`/posts/${post.id}`}
+                class="inline-block mt-4 text-blue-500 font-semibold hover:underline"
+              >
+                Read More
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>
